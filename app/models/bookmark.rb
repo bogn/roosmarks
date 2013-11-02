@@ -15,6 +15,6 @@ class Bookmark < ActiveRecord::Base
   private
 
   def save_tags
-    self.tags = (tag_names || '').split(' ').collect { |tag_name| Tag.find_or_create_by_name(tag_name) }.uniq
+    self.tags = (tag_names || '').split(',.').collect { |tag_name| Tag.find_or_create_by_name(tag_name) }.uniq
   end
 end
