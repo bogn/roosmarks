@@ -19,7 +19,6 @@ end
 
 group :development do
   gem 'foreman'
-  gem 'sqlite3'
   gem 'brakeman'
 end
 
