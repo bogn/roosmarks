@@ -59,13 +59,13 @@ class BookmarkTest < ActiveSupport::TestCase
   end
 
   test "should split the list of tags and create tag objects" do
-    bookmark = create(:bookmark, tag_names: 'tag-1 tag-2')
+    bookmark = create(:bookmark, tag_names: ["tag-1", "tag-2"].join(TAG_SEPARATOR))
     bookmark.reload
     assert_equal [Tag.find_by_name!('tag-1'), Tag.find_by_name!('tag-2')], bookmark.tags
   end
 
   test "should not create duplicate tags" do
-    bookmark = create(:bookmark, tag_names: 'tag-1 tag-1')
+    bookmark = create(:bookmark, tag_names: ["tag-1", "tag-1"].join(TAG_SEPARATOR))
     assert_equal [Tag.find_by_name!('tag-1')], bookmark.tags
   end
 end
