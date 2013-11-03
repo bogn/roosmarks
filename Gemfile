@@ -27,4 +27,5 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy'
+  gem "minitest-reporters", '>= 0.5.0'
 end
