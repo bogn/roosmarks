@@ -1,0 +1,3 @@
+var APP = {tag_separator: '#{TAG_SEPARATOR}'};
+- local_assigns.each do |key, value|
+  APP.#{key} = #{value.to_json.html_safe}

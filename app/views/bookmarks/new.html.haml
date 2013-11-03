@@ -3,6 +3,8 @@
 - content_for :page_title do
   New bookmark
 
+- js_app_object(tags: @tags.map(&:name))
+
 = twitter_bootstrap_form_for(@bookmark, html: {class: 'new_bookmark form-horizontal'}) do |bookmark_form|
   %fieldset
 
@@ -26,7 +28,9 @@
       = bookmark_form.label :tag_names, 'Tags', class: 'control-label'
       .controls
         = bookmark_form.text_field :tag_names, class: 'input-xlarge'
-        .help-block Tags are space separated
+        .help-block
+          Tags are separated by:
+          %span.well.well-small #{TAG_SEPARATOR}
 
     .control-group
       = bookmark_form.label :comments, class: 'control-label'
