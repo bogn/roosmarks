@@ -1,8 +1,8 @@
 $(function() {
   $('#bookmark_tag_names').select2({
     tags: APP.tags,
-    separator: " ",
-    tokenSeparators: [" "]
+    separator: APP.tag_separator,
+    tokenSeparators: [APP.tag_separator]
   });
 
   $('#roosmarklet').click(function() {
