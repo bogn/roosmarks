@@ -13,7 +13,7 @@ module ApplicationHelper
   def js_app_object(data)
     content_for :additional_page_header_content do
       javascript_tag do
-        render partial: 'shared/js_app_object', formats: :js, locals: data
+        render template: 'shared/js_app_object', formats: :js, locals: data
       end
     end
   end
