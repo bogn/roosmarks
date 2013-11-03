@@ -285,7 +285,7 @@ class BookmarksControllerTest < ActionController::TestCase
   test 'should allow a bookmark to be added' do
     login!
 
-    post :create, bookmark: {url: 'http://example.com', title: 'Example.com', tag_names: 'tag-1 tag-2'}
+    post :create, bookmark: {url: 'http://example.com', title: 'Example.com', tag_names: ["tag-1", "tag-2"].join(TAG_SEPARATOR)}
 
     assert_equal 'http://example.com', Bookmark.last.url
     assert_equal 'Example.com', Bookmark.last.title
