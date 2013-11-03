@@ -37,8 +37,9 @@ class BookmarkTest < ActiveSupport::TestCase
   end
 
   test "should allow tag_names to be mass assigned" do
-    bookmark = Bookmark.new(tag_names: 'tag-1 tag-2')
-    assert_equal 'tag-1 tag-2', bookmark.tag_names
+    tag_names = ["tag-1", "tag-2"].join(TAG_SEPARATOR)
+    bookmark = Bookmark.new(tag_names: tag_names)
+    assert_equal tag_names, bookmark.tag_names
   end
 
   test "should not allow tags to be mass assigned" do
