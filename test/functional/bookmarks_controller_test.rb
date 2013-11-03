@@ -305,12 +305,12 @@ class BookmarksControllerTest < ActionController::TestCase
 
   test 'should populate the form with the bookmark attributes if creation fails' do
     login!
-
-    post :create, bookmark: {url: 'http://example.com', title: '', tag_names: 'tag1 tag2', comments: 'my-comments'}
+    tag_names = ["tag-1", "tag-2"].join(TAG_SEPARATOR)
+    post :create, bookmark: {url: 'http://example.com', title: '', tag_names: tag_names, comments: 'my-comments'}
 
     assert_select "input[name='bookmark[url]'][value='http://example.com']"
     assert_select "input[name='bookmark[title]'][value='']"
-    assert_select "input[name='bookmark[tag_names]'][value='tag1 tag2']"
+    assert_select "input[name='bookmark[tag_names]'][value='#{tag_names}']"
     assert_select "textarea[name='bookmark[comments]']", text: 'my-comments'
   end
 
@@ -341,14 +341,15 @@ class BookmarksControllerTest < ActionController::TestCase
 
   test 'should display all fields and values when editing a bookmark' do
     login!
-    bookmark = create(:bookmark, url: 'http://example.com', title: 'my-title', tag_names: 'tag-1 tag-2', comments: 'my-comment')
+    tag_names = tag_names = ["tag-1", "tag-2"].join(TAG_SEPARATOR)
+    bookmark = create(:bookmark, url: 'http://example.com', title: 'my-title', tag_names: tag_names, comments: 'my-comment')
 
     get :edit, id: bookmark
 
     assert_select "form[action='#{bookmark_path(bookmark)}'][method=post]" do
       assert_select "input[type=text][name='bookmark[url]'][readonly='readonly'][value='http://example.com']"
       assert_select "input[type=text][name='bookmark[title]'][value='my-title']"
-      assert_select "input[type=text][name='bookmark[tag_names]'][value='tag-1 tag-2']"
+      assert_select "input[type=text][name='bookmark[tag_names]'][value='#{tag_names}']"
       assert_select "textarea[name='bookmark[comments]']", text: 'my-comment'
       assert_select "input[type=submit][value='Update bookmark']"
     end
