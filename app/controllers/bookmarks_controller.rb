@@ -1,5 +1,6 @@
 class BookmarksController < ApplicationController
   before_filter :authenticate, only: [:new, :create, :edit, :update]
+  before_filter :set_tags, only: [:new, :create, :edit, :update]
 
   def index
     respond_to do |format|
@@ -59,4 +60,11 @@ class BookmarksController < ApplicationController
       render :edit
     end
   end
+
+  private
+
+    # NOTE: This uses lazy-loading so it won't query the database for redirect cases.
+    def set_tags
+      @tags = Tag.select(:name)
+    end
 end

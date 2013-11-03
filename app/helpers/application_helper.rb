@@ -9,4 +9,12 @@ module ApplicationHelper
     engine = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true)
     engine.render(markdown).html_safe
   end
+
+  def js_app_object(data)
+    content_for :additional_page_header_content do
+      javascript_tag do
+        render partial: 'shared/js_app_object', formats: :js, locals: data
+      end
+    end
+  end
 end
