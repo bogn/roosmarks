@@ -52,7 +52,7 @@ class ActionDispatch::IntegrationTest
     click_link "New bookmark"
     fill_in "Url", with: attributes[:url]
     fill_in "Title", with: attributes[:title]
-    fill_in "Tags", with: attributes[:tags]
+    fill_in_tags(attributes[:tags])
     fill_in "Comments", with: attributes[:comments]
     click_button "Create bookmark"
   end
@@ -63,10 +63,25 @@ class ActionDispatch::IntegrationTest
 
     click_link "Edit the bookmark for #{attributes[:url]}"
     fill_in "Title", with: attributes[:title]
-    fill_in "Tags", with: attributes[:tags]
+    fill_in_tags(attributes[:tags])
     fill_in "Comments", with: attributes[:comments]
     click_button "Update bookmark"
   end
+
+
+  def fill_in_tags(tags)
+    # TAG_SEPARATOR is added to the tags so that select2 will tokenize the last tag.
+    # It would be much better if we could simply send/press enter, but this can't
+    # be simulated with an additional \n it seems. So we're relying on select2's
+    # tokenSeparators property.
+    fill_in "Tags", with: tags.nil? ? nil : tags + TAG_SEPARATOR
+
+    # remove drop-down mask, otherwise click_button calls meant for other elements
+    # will click it. This wouldn't be necessary as well, when pressing enter after
+    # filling in the tags was possible. In that case the mask would be hidden.
+    find('#select2-drop-mask').click
+  end
+
 
   def when_viewing_the_tag_page(tag_name)
     visit_tag_page(tag_name)
@@ -89,7 +104,7 @@ class ActionDispatch::IntegrationTest
 
     assert page.has_css?("#bookmarks .bookmark a[href='#{attributes[:url]}']"), "expected bookmark to link to '#{attributes[:url]}'"
     assert page.has_css?('#bookmarks .bookmark .title', text: attributes[:title]), "expected bookmark to be titled '#{attributes[:title]}'"
-    (attributes[:tags] || '').split(' ').each do |tag|
+    (attributes[:tags] || '').split(TAG_SEPARATOR).each do |tag|
       assert page.has_css?('#bookmarks .bookmark .tags', text: tag), "expected bookmark to be tagged with '#{attributes[:tag]}'"
     end
     assert page.has_css?('#bookmarks .bookmark .comments', text: attributes[:comments]), "expected bookmark to have comment '#{attributes[:comments]}'"
