@@ -28,6 +28,7 @@ I currently have a version hosted on [Heroku][] at [roosmarks][].
 * [sqlite3][] development headers (for [Taps][])
 * [PostgreSQL][] (I've tested successfully with 9.1 on Mac and FreeBSD)
 * [NodeJS][] (for [ExecJS][] on FreeBSD)
+* [PhantomJS][] (for integration tests with a headless WebKit. Enabling tests dependent on JS. Shows JS errors as well.)
 
 ### Getting started
 
@@ -87,3 +88,4 @@ I had to jump through some hoops to get this running on FreeBSD 8.2:
 [Taps]: http://rubygems.org/gems/taps
 [ExecJS]: https://github.com/sstephenson/execjs
 [NodeJS]: http://nodejs.org/
+[PhantomJS]: http://www.phantomjs.org/

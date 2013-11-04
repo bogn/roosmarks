@@ -341,7 +341,7 @@ class BookmarksControllerTest < ActionController::TestCase
 
   test 'should display all fields and values when editing a bookmark' do
     login!
-    tag_names = tag_names = ["tag-1", "tag-2"].join(TAG_SEPARATOR)
+    tag_names = ["tag-1", "tag-2"].join(TAG_SEPARATOR)
     bookmark = create(:bookmark, url: 'http://example.com', title: 'my-title', tag_names: tag_names, comments: 'my-comment')
 
     get :edit, id: bookmark
