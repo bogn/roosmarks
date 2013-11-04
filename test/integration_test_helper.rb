@@ -1,6 +1,11 @@
 require "test_helper"
 require 'capybara/rails'
 
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+
+
 # Transactional fixtures do not work with Selenium tests, because Capybara
 # uses a separate server thread, which the transactions would be hidden
 # from. We hence use DatabaseCleaner to truncate our test database.
@@ -12,6 +17,12 @@ class ActionDispatch::IntegrationTest
 
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_fixtures = false
+
+  setup do
+    # use poltergeist as the driver, this will enable tests depending on JS and will
+    # raise on JS errors, thus allowing to spot them.
+    Capybara.current_driver = Capybara.javascript_driver
+  end
 
   teardown do
     DatabaseCleaner.clean       # Truncate the database
@@ -25,7 +36,11 @@ class ActionDispatch::IntegrationTest
   end
 
   def login!
-    page.driver.browser.basic_authorize USERNAME, PASSWORD
+    if Capybara.current_driver == :poltergeist
+      page.driver.basic_authorize USERNAME, PASSWORD
+    else
+      page.driver.browser.basic_authorize USERNAME, PASSWORD
+    end
   end
 
   def given_a_user_bookmarks(attributes)

@@ -26,6 +26,11 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
+  # Use poltergeist for browser tests with JavaScript.
+  # It's a headless WebKit, provided by PhantomJS, which is available for all platforms.
+  # See https://github.com/jonleighton/poltergeist/tree/v1.4.1#installing-phantomjs
+  # Easy installation on ubuntu http://www.joyceleong.com/log/installing-phantomjs-on-ubuntu
+  gem 'poltergeist', github: 'jonleighton/poltergeist', ref: '24e154a14719a4490437beb193388a242b518d43'
   gem 'database_cleaner'
   gem 'launchy'
 end
